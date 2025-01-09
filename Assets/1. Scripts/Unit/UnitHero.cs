@@ -256,8 +256,10 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 
         unitStat.AttackRange = unitInfo.LvUnitStat[unitStat.Lv - 1].AttackRange + Items.Sum(item => item.itemStat.AttackRange);       // 사정거리
 
+        unitStat.AttackSpeed = unitInfo.LvUnitStat[unitStat.Lv - 1].AttackSpeed + Items.Sum(item => item.itemStat.AttackSpeed); // 공격 속도
+
         unitStat.HpDrain = unitInfo.LvUnitStat[unitStat.Lv - 1].HpDrain + Items.Sum(item => item.itemStat.HpDrain); // 체력 흡수
-        
+
         unitStat.Speed = unitInfo.LvUnitStat[unitStat.Lv - 1].Speed;
 
     }

@@ -15,6 +15,8 @@ public class UnitInfo : ScriptableObject
         public int AttackRange;       // 사정거리
         public int HpDrain;
         public int Speed;
+        public int AttackSpeed;       // 공격속도
+
     }
 
     public UnitBaseStat[] LvUnitStat;

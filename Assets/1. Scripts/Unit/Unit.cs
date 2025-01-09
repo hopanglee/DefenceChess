@@ -12,6 +12,7 @@ public abstract class Unit : MonoBehaviour
         public int MagicResistance;   // 마법 저항력
         public int AttackRange;       // 사정거리
         public int HpDrain; // 체력 흡수
+        public int AttackSpeed; // 공격 속도
         public int Speed; // 이동속도
     }
 
