@@ -4,6 +4,7 @@ using UnityEngine;
 public class GridMovable : MonoBehaviour
 {
     private GridPositionable m_gridPositionable;
+    private PathFinder m_pathFinder = new PathFinder();
 
     private void Awake()
     {

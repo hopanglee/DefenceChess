@@ -20,5 +20,7 @@ public interface IHasHP
     event Action<int> OnShieldUpdate;
     event Action OnShieldDepleted;
 
+    event Action OnGetAttacked;
+
     void AddShield(int amount);
 }

@@ -1,9 +1,9 @@
 // hp mp item
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
 
 public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 {
@@ -108,6 +108,8 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
     public event Action<int> OnShieldUpdate;
     public event Action OnShieldDepleted;
 
+    public event Action OnGetAttacked;
+
     public event Action OnMpMax;
 
     public event Action<int> OnMpUpdate;
@@ -116,6 +118,8 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 
     public event Action OnUseSkill;
     public event Action<List<Item>> OnUpdateItem;
+
+    public event Action OnAttack;
 
     private void OnEnable()
     {
@@ -196,9 +200,13 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 
             if (Hp <= 0)
             {
-                return true;
+                break;
             }
         }
+
+        OnGetAttacked?.Invoke();
+
+        if (Hp <= 0) return true;
 
         return false;
     }
@@ -236,8 +244,14 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
     }
 
     public abstract void UseSkill();
+    public abstract void Attack();
 
-
+    public override void StartTurn()
+    {
+        ReloadStat();
+        base.StartTurn();
+        
+    }
     private void ReloadStat()
     {
         MaxHp = unitInfo.LvUnitStat[unitStat.Lv - 1].MaxHp + Items.Sum(item => item.itemStat.MaxHp);

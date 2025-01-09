@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(GridPositionable))]
 public abstract class Unit : MonoBehaviour
 {
     // hp mp 제외한 stat
@@ -17,10 +18,29 @@ public abstract class Unit : MonoBehaviour
     }
 
     protected UnitStat unitStat;
-
+    protected UnitState unitState;
     public bool isEnemy;
 
     public UnitInfo unitInfo;
+
+    private void Awake() {
+        UnitManager.AddUnit(this);
+    }
+
+    public virtual void StartTurn()
+    {
+        unitState = new UnitStateSearching(this);
+    }
+
+    public virtual void StopTurn()
+    {
+        unitState = new UnitStateIdle(this);
+    }
+
+    private void Update()
+    {
+        unitState.Update();
+    }
 
     protected int CalculateDamage(AttackInfo attackInfo)
     {
