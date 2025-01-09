@@ -3,14 +3,16 @@ using UnityEngine;
 
 public interface IHasMP
 {
-    bool canSkill { get; protected set; }
-    int MP { get; protected set; }
-    int MaxMp { get; protected set; }
+    int Mp { get; set; }
+    int MaxMp { get; set; }
 
-    event Action OnMPMax;
+    event Action OnMpMax;
     event Action<int> OnMpUpdate;
     event Action<int> OnMaxMpUpdate;
-    event Action OnMPDepleted;
 
-    void UpdateMP(int amount);
+    event Action OnUseSkill;
+
+    void AddMP(int amount);
+
+    void UseSkill();
 }

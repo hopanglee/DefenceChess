@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class AttackInfo
 {
-    public enum SkillType
+    public enum AttackType
     {
         Melee,
         Ranged,
     }
 
-    public SkillType skillType;
+    public AttackType attackType;
 
     public enum DamageType
     {
@@ -22,9 +22,9 @@ public class AttackInfo
     public DamageType damageType;
     public int amount;
 
-    public AttackInfo(SkillType skillType, DamageType damageType, int amount)
+    public AttackInfo(AttackType attackType, DamageType damageType, int amount)
     {
-        this.skillType = skillType;
+        this.attackType = attackType;
         this.damageType = damageType;
         this.amount = amount;
     }
@@ -54,7 +54,7 @@ public class NormalAttack : Attack
 
     public override void StartAttack(IHasHP target)
     {
-        target.OnHPDepleted += StopAttack;
+        target.OnHpDepleted += StopAttack;
         bool isKilled = target.GetAttacked(m_attacker, m_info); // 즉시 피해
 
         if (isKilled)
@@ -82,7 +82,7 @@ public class DelayAttack : Attack
 
     public override void StartAttack(IHasHP target)
     {
-        target.OnHPDepleted += StopAttack;
+        target.OnHpDepleted += StopAttack;
         m_currentCoroutine = CoroutineRunner.Instance.RunCoroutine(WaitCoroutine(target));
     }
 
@@ -128,7 +128,7 @@ public class PoisonAttack : Attack
 
     public override void StartAttack(IHasHP target)
     {
-        target.OnHPDepleted += StopAttack;
+        target.OnHpDepleted += StopAttack;
         m_currentCoroutine = CoroutineRunner.Instance.RunCoroutine(RepeatCoroutine(target));
     }
 
