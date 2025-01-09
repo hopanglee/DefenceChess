@@ -77,7 +77,7 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
                 _mp = new_mp;
                 OnMpUpdate?.Invoke(new_mp);
 
-                if (new_mp == MaxMp)
+                if (new_mp == MaxMp && MaxMp > 0)
                     OnMpMax?.Invoke();
 
             }
@@ -248,9 +248,9 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 
     public override void StartTurn()
     {
-        ReloadStat();
         base.StartTurn();
-        
+        ReloadStat();
+        unitState = new UnitStateSearching(this);
     }
     private void ReloadStat()
     {

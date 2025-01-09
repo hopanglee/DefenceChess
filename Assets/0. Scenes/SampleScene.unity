@@ -16988,6 +16988,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tower
       objectReference: {fileID: 0}
+    - target: {fileID: 6830974098049978624, guid: 2d802d4dede68498990058398a8113b0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7387962112283565964, guid: 2d802d4dede68498990058398a8113b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.28
@@ -54061,6 +54065,10 @@ PrefabInstance:
     - target: {fileID: 8217945516204872504, guid: 65f5c803c86964f50a57ccadd8d154fa, type: 3}
       propertyPath: m_Name
       value: Unit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8217945516204872504, guid: 65f5c803c86964f50a57ccadd8d154fa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8511431218995176977, guid: 65f5c803c86964f50a57ccadd8d154fa, type: 3}
       propertyPath: m_AnchorMax.y

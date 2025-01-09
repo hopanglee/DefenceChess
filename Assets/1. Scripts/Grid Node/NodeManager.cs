@@ -18,6 +18,11 @@ public static class NodeManager
         nodes.Add(new(x, y, z), node);
     }
 
+    public static Node GetNode(Vector3Int cubePos)
+    {
+        return GetNode(cubePos.x, cubePos.y, cubePos.z);
+    }
+
     public static Node GetNode(int x, int y, int z)
     {
         if (nodes.TryGetValue(new(x, y, z), out Node node))

@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class Unit : MonoBehaviour
 {
     // hp mp 제외한 stat
-    public struct UnitStat
+    public class UnitStat
     {
         public int Lv;
         public int AttackPower;       // 공격력
@@ -17,29 +17,43 @@ public abstract class Unit : MonoBehaviour
         public int Speed; // 이동속도
     }
 
-    protected UnitStat unitStat;
+    public UnitStat unitStat{get; protected set;}
     protected UnitState unitState;
     public bool isEnemy;
 
     public UnitInfo unitInfo;
 
-    private void Awake() {
+    private GridPositionable _gridPositionable;
+    private void Awake()
+    {
         UnitManager.AddUnit(this);
+        _gridPositionable = GetComponent<GridPositionable>();
+    }
+
+    public Vector3Int GetPosition()
+    {
+        return _gridPositionable.gridPosition;
     }
 
     public virtual void StartTurn()
     {
-        unitState = new UnitStateSearching(this);
     }
 
     public virtual void StopTurn()
     {
         unitState = new UnitStateIdle(this);
+
+
     }
 
     private void Update()
     {
         unitState.Update();
+    }
+
+    public void ChangeState(UnitState newState)
+    {
+        unitState = newState;
     }
 
     protected int CalculateDamage(AttackInfo attackInfo)

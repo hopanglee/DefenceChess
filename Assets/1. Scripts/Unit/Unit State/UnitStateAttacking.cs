@@ -1,6 +1,14 @@
 public class UnitStateAttacking : UnitState
 {
-    public UnitStateAttacking(Unit unit) : base(unit)
+    private Unit m_target;
+    public UnitStateAttacking(Unit unit, Unit target) : base(unit)
     {
+        this.m_target = target;
     }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+    
 }
