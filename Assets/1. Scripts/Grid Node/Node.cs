@@ -13,7 +13,7 @@ public class Node : MonoBehaviour
         new Vector3Int(0, -1, 1)   // 위
     };
 
-    public Vector3Int pos { get; private set; }
+    public Vector3Int pos;
     public bool isEmpty { get; private set; } = true;
     private GridPositionable m_gridObject;
 

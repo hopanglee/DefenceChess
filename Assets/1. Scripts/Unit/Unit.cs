@@ -1,9 +1,28 @@
+using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [RequireComponent(typeof(GridPositionable))]
 public abstract class Unit : MonoBehaviour
 {
+    [HorizontalGroup("Buttons", Width = 130)]
+    [Button("StartTurn", ButtonSizes.Large)]
+    private void DebugStartTurn()
+    {
+        StartTurn();
+    }
+
+    [HorizontalGroup("Buttons", Width = 130)]
+    [Button("StopTurn", ButtonSizes.Large)]
+    private void DebugStopTurn()
+    {
+        StopTurn();
+    }
+
+    public event Action OnAttack;
+
     // hp mp 제외한 stat
+    [System.Serializable]
     public class UnitStat
     {
         public int Lv;
@@ -12,22 +31,32 @@ public abstract class Unit : MonoBehaviour
         public int Defense;           // 방어력
         public int MagicResistance;   // 마법 저항력
         public int AttackRange;       // 사정거리
-        public int HpDrain; // 체력 흡수
-        public int AttackSpeed; // 공격 속도
+        public float HpDrain; // 체력 흡수
+        public float AttackSpeed; // 공격 속도
         public int Speed; // 이동속도
     }
 
-    public UnitStat unitStat{get; protected set;}
+    public UnitStat unitStat;
     protected UnitState unitState;
     public bool isEnemy;
 
     public UnitInfo unitInfo;
 
     private GridPositionable _gridPositionable;
-    private void Awake()
+
+
+    public virtual void Attack(IHasHP target)
+    {
+        OnAttack?.Invoke();
+    }
+    protected virtual void Awake()
     {
         UnitManager.AddUnit(this);
         _gridPositionable = GetComponent<GridPositionable>();
+        unitStat.Lv = 1;
+
+        unitState = new UnitStateIdle(this);
+        ReloadStat();
     }
 
     public Vector3Int GetPosition()
@@ -48,7 +77,7 @@ public abstract class Unit : MonoBehaviour
 
     private void Update()
     {
-        unitState.Update();
+        unitState?.Update();
     }
 
     public void ChangeState(UnitState newState)
@@ -64,6 +93,7 @@ public abstract class Unit : MonoBehaviour
                 return attackInfo.amount;
 
             case AttackInfo.DamageType.Physical:
+
                 float physicalReducuction = (float)unitStat.Defense / (unitStat.Defense + 100);
                 return Mathf.Max((int)(attackInfo.amount * (1 - physicalReducuction)), 1);
 
@@ -74,6 +104,10 @@ public abstract class Unit : MonoBehaviour
             default:
                 return 0;
         }
+    }
+
+    protected virtual void ReloadStat()
+    {
     }
 
 }

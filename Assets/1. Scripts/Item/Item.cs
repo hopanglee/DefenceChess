@@ -7,6 +7,7 @@ public abstract class Item : ScriptableObject
     public string Name;
     public Sprite ItemSprite;
 
+    [System.Serializable]
     public struct ItemStat
     {
         public int MaxHp;
@@ -17,8 +18,8 @@ public abstract class Item : ScriptableObject
         public int Defense;           // 방어력
         public int MagicResistance;   // 마법 저항력
         public int AttackRange;       // 사정거리
-        public int AttackSpeed;       // 공격속도
-        public int HpDrain; // 체력 흡수
+        public float AttackSpeed;       // 공격속도
+        public float HpDrain; // 체력 흡수
     }
 
     public ItemStat itemStat;

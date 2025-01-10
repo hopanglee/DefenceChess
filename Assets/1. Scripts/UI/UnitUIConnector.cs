@@ -74,6 +74,10 @@ public class UnitUIConnector : UIBehaviour
             {
                 itemContainer.ItemMax = _itemUnit.ItemMax;
                 itemContainer.Show();
+
+                _itemUnit.OnUpdateItem -= itemContainer.ItemUpdate;
+                _itemUnit.OnUpdateItem += itemContainer.ItemUpdate;
+
                 itemContainer.Initialized();
             }
             else

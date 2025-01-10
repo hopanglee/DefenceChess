@@ -49,7 +49,7 @@ public abstract class Attack
 
 public class NormalAttack : Attack
 {
-    public NormalAttack(Unit attacker, AttackInfo[] attackInfo, Action<IHasHP> onKilled)
+    public NormalAttack(Unit attacker, AttackInfo[] attackInfo, Action<IHasHP> onKilled = null)
         : base(attacker, attackInfo, onKilled) { }
 
     public override void StartAttack(IHasHP target)

@@ -1,3 +1,6 @@
+
+using UnityEngine;
+
 public class UnitStateSearching : UnitState
 {
     GridMovable gridMovable;
@@ -8,6 +11,8 @@ public class UnitStateSearching : UnitState
 
     public override void Update()
     {
+        Debug.Log($"{m_unit.name} > Searching");
+
         base.Update();
 
         // 사거리 밖에 적 존재
@@ -15,7 +20,7 @@ public class UnitStateSearching : UnitState
 
         if (gridMovable && gridMovable.isMoving) // 이동 중이면 패스
         {
-            return; 
+            return;
         }
 
         var nearest = UnitManager.GetNearestEnemy(m_unit.isEnemy, m_unit.transform.position);
@@ -27,7 +32,8 @@ public class UnitStateSearching : UnitState
             if (distance <= m_unit.unitStat.AttackRange)
             {
                 // 사거리 안에 적 존재
-                m_unit.ChangeState(new UnitStateAttacking(m_unit, nearest));
+                //Debug.Log($"{m_unit.name} > 사거리 내 적 존재 {distance}");
+                m_unit.ChangeState(new UnitStateAttacking(m_unit, (IHasHP)nearest));
                 return;
             }
             else

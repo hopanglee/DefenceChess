@@ -18,21 +18,30 @@ public static class UnitManager
         Unit nearestUnit = null;
         foreach (var _unit in units)
         {
-            if (_unit.isEnemy != isEnemy)
+            if (_unit is IHasHP _IhasHP && !_IhasHP.IsDeath)
             {
-                var temp = position - _unit.transform.position;
-                Vector2 vec = new(temp.x, temp.z);
-                var new_distance = Vector2.SqrMagnitude(vec);
-                if (new_distance < distance)
+                if (_unit.isEnemy != isEnemy)
                 {
-                    nearestUnit = _unit;
-                    distance = new_distance;
-                }
-                else if (new_distance == distance)
-                {
-                    ;
+                    var temp = position - _unit.transform.position;
+                    Vector2 vec = new(temp.x, temp.z);
+                    var new_distance = Vector2.SqrMagnitude(vec);
+                    if (new_distance < distance)
+                    {
+                        nearestUnit = _unit;
+                        distance = new_distance;
+                    }
+                    else if (new_distance == distance)
+                    {
+                        ;
+                    }
                 }
             }
+            else
+            {
+                continue;
+            }
+
+
         }
 
         return nearestUnit;

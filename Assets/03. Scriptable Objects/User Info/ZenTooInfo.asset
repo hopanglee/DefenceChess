@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41abeda7ecb0340b889357951633f4ae, type: 3}
+  m_Name: ZenTooInfo
+  m_EditorClassIdentifier: 
+  LvUnitStat:
+  - MaxHp: 64
+    MaxMp: 20
+    MaxItem: 3
+    AttackPower: 10
+    AbilityPower: 10
+    Defense: 0
+    MagicResistance: 0
+    AttackRange: 5
+    HpDrain: 0
+    Speed: 100
+    AttackSpeed: 1
+  - MaxHp: 1
+    MaxMp: 23
+    MaxItem: 0
+    AttackPower: 21121
+    AbilityPower: 2
+    Defense: 121
+    MagicResistance: 2121
+    AttackRange: 1
+    HpDrain: 0
+    Speed: 0
+    AttackSpeed: 0
+  - MaxHp: 0
+    MaxMp: 0
+    MaxItem: 0
+    AttackPower: 0
+    AbilityPower: 0
+    Defense: 0
+    MagicResistance: 0
+    AttackRange: 0
+    HpDrain: 0
+    Speed: 0
+    AttackSpeed: 0
+  - MaxHp: 0
+    MaxMp: 0
+    MaxItem: 0
+    AttackPower: 0
+    AbilityPower: 0
+    Defense: 0
+    MagicResistance: 0
+    AttackRange: 0
+    HpDrain: 0
+    Speed: 0
+    AttackSpeed: 0
+  Name: "\uC820\uD22C"
+  UnitSprite: {fileID: 0}
+  Price: 1

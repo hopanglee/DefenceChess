@@ -12,8 +12,10 @@ public class UnitUIHPBar : UIBehaviour, IUIView
 
     [SerializeField]
     private Slider shieldSlider;
-    public int MaxHp { private get; set; }
+    public int MaxHp;
+    [SerializeField]
     private int m_curHp;
+    [SerializeField]
     private int m_shieldAmount;
 
     public void HpUIUpdate(int value)
@@ -45,18 +47,18 @@ public class UnitUIHPBar : UIBehaviour, IUIView
             // 현재체력 + 쉴드 > 최대 체력
             if (m_curHp + m_shieldAmount > MaxHp)
             {
-                hpShieldRatio = m_curHp / (m_curHp + m_shieldAmount);
+                hpShieldRatio = (float)m_curHp / (m_curHp + m_shieldAmount);
                 shieldSlider.value = 1f;
                 //step = (m_curHp) / steps;
-                hpSlider.value = m_curHp / (m_curHp + m_shieldAmount);
+                hpSlider.value = (float)m_curHp / (m_curHp + m_shieldAmount);
             }
             else
             {
-                shieldSlider.value = (m_curHp + m_shieldAmount) / MaxHp;
-                hpShieldRatio = m_curHp / MaxHp;
+                shieldSlider.value = (float)(m_curHp + m_shieldAmount) / MaxHp;
+                hpShieldRatio = (float)m_curHp / MaxHp;
                 //step = m_curHp / steps;
 
-                hpSlider.value = m_curHp / MaxHp;
+                hpSlider.value = (float)m_curHp / MaxHp;
             }
 
             //damaged.fillAmount = hp.fillAmount;
@@ -67,7 +69,7 @@ public class UnitUIHPBar : UIBehaviour, IUIView
             //step = MaxHp / steps;
             hpShieldRatio = 1f;
 
-            hpSlider.value = m_curHp / MaxHp;
+            hpSlider.value = (float)m_curHp / MaxHp;
         }
 
         //         damaged.fillAmount = Mathf.Lerp(damaged.fillAmount, hp.fillAmount, Time.deltaTime * speed);

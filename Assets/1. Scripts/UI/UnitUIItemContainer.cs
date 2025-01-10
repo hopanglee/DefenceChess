@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,7 +13,16 @@ public class UnitUIItemContainer : UIBehaviour, IUIView
 
     public void Initialized()
     {
-        throw new NotImplementedException();
+        Hide();
+    }
+
+    public void ItemUpdate(List<Item> items)
+    {
+        if(items.Count == 0) Hide();
+        else
+        {
+            Show();
+        }
     }
 
     public void Hide()

@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class GridPositionable : MonoBehaviour
 {
-    public Vector3Int gridPosition { get; private set; }
+    public Vector3Int gridPosition;
 
     private void Start()
     {
         if (gridPosition != null)
         {
             SetGridPosition(gridPosition.x, gridPosition.y, gridPosition.z);
+            this.transform.position = NodeManager.nodes[gridPosition].transform.position;
         }
     }
 

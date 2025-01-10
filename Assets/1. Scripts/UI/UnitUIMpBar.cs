@@ -9,8 +9,9 @@ public class UnitUIMPBar : UIBehaviour, IUIView
     [SerializeField]
     private Slider mpSlider;
 
+    [SerializeField]
     private int m_mp;
-    public int MaxMp { private get; set; }
+    public int MaxMp;
 
     public void Initialized()
     {

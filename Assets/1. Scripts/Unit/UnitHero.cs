@@ -3,17 +3,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 {
+    #region private stat 대리 변수
     private int _hp;
     private int _maxHp;
     private int _mp;
     private int _maxMp;
     private int _shieldAmount;
+    #endregion
 
-
+    #region IHasHP 변수
     public int ShieldAmount
     {
         get => _shieldAmount;
@@ -66,6 +69,9 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         }
     }
 
+    #endregion
+
+    #region IHasMP 변수
     public int Mp
     {
         get => _mp;
@@ -97,19 +103,26 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
             }
         }
     }
+    #endregion
 
+    #region IHasItem 변수
     public int ItemMax { get; set; }
     public List<Item> Items { get; set; }
+    #endregion
 
+    #region Event 변수
+    #region IHasHP Event 변수
     public event Action OnHpMax;
     public event Action<int> OnHpUpdate;
     public event Action<int> OnMaxHpUpdate;
     public event Action OnHpDepleted;
     public event Action<int> OnShieldUpdate;
     public event Action OnShieldDepleted;
-
     public event Action OnGetAttacked;
 
+    #endregion
+
+    #region IHasMP Event 변수
     public event Action OnMpMax;
 
     public event Action<int> OnMpUpdate;
@@ -117,9 +130,27 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
     public event Action<int> OnMaxMpUpdate;
 
     public event Action OnUseSkill;
-    public event Action<List<Item>> OnUpdateItem;
 
-    public event Action OnAttack;
+    #endregion
+
+    #region IHasItem Event 변수
+
+    public event Action<List<Item>> OnUpdateItem;
+    #endregion
+
+    #endregion
+
+    #region abstract function
+    public abstract void UseSkill();
+
+    #endregion
+
+    protected override void Awake()
+    {
+        Items = new();
+        
+        base.Awake();
+    }
 
     private void OnEnable()
     {
@@ -128,6 +159,7 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         {
             // 나중에 부활아이템 생기면 조건 추가 
             IsDeath = true;
+            unitState = new UnitStateDeath(this);
         };
 
         OnUpdateItem += (_) =>
@@ -145,6 +177,7 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         {
             // 나중에 부활아이템 생기면 조건 추가 
             IsDeath = true;
+            unitState = new UnitStateDeath(this);
         };
 
         OnUpdateItem -= (_) =>
@@ -169,7 +202,7 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         foreach (var _attackInfo in attackInfo)
         {
             var damage = CalculateDamage(_attackInfo);
-
+            //Debug.Log($"Damage : {damage}");
             // 이후 데미지 텍스트 UI관련
             switch (_attackInfo.damageType)
             {
@@ -226,6 +259,11 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         Mp += amount;
     }
 
+    public virtual void SetMP(int amount)
+    {
+        Mp = amount;
+    }
+
     public bool AddItem(Item item)
     {
         if (Items.Count < ItemMax)
@@ -243,8 +281,7 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         OnUpdateItem?.Invoke(Items);
     }
 
-    public abstract void UseSkill();
-    public abstract void Attack();
+
 
     public override void StartTurn()
     {
@@ -252,7 +289,7 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         ReloadStat();
         unitState = new UnitStateSearching(this);
     }
-    private void ReloadStat()
+    protected override void ReloadStat()
     {
         MaxHp = unitInfo.LvUnitStat[unitStat.Lv - 1].MaxHp + Items.Sum(item => item.itemStat.MaxHp);
         Hp = MaxHp;
@@ -275,6 +312,5 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         unitStat.HpDrain = unitInfo.LvUnitStat[unitStat.Lv - 1].HpDrain + Items.Sum(item => item.itemStat.HpDrain); // 체력 흡수
 
         unitStat.Speed = unitInfo.LvUnitStat[unitStat.Lv - 1].Speed;
-
     }
 }
