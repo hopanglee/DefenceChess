@@ -31,9 +31,19 @@ public class GridMovable : MonoBehaviour
         float moveSpeed = (float)speed / 100f;
         Vector3 targetPosition = node.transform.position;
 
+        // 바라볼 방향 계산
+        Vector3 direction = (targetPosition - transform.position).normalized;
+
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+
+            // 방향 회전
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, moveSpeed * Time.deltaTime * 5f); // 부드러운 회전
+            }
             yield return null; // 다음 프레임까지 대기
         }
 

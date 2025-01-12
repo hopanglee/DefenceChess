@@ -44,6 +44,7 @@ public abstract class Unit : MonoBehaviour
 
     private GridPositionable _gridPositionable;
 
+    public Animator animator;
 
     public virtual void Attack(IHasHP target)
     {

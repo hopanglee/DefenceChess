@@ -20,7 +20,7 @@ MonoBehaviour:
     AbilityPower: 10
     Defense: 0
     MagicResistance: 0
-    AttackRange: 5
+    AttackRange: 1
     HpDrain: 0
     Speed: 100
     AttackSpeed: 1
@@ -32,17 +32,6 @@ MonoBehaviour:
     Defense: 121
     MagicResistance: 2121
     AttackRange: 1
-    HpDrain: 0
-    Speed: 0
-    AttackSpeed: 0
-  - MaxHp: 0
-    MaxMp: 0
-    MaxItem: 0
-    AttackPower: 0
-    AbilityPower: 0
-    Defense: 0
-    MagicResistance: 0
-    AttackRange: 0
     HpDrain: 0
     Speed: 0
     AttackSpeed: 0

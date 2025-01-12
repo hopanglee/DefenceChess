@@ -9,6 +9,9 @@ public class UnitStateAttacking : UnitState
     {
         this.m_target = target;
         m_timer = 0;
+        m_unit.animator.SetBool("IsAttacking", true);
+        m_unit.animator.speed = m_unit.unitStat.AttackSpeed;
+        //m_unit.animator.SetFloat("AttackSpeed", 1 / m_unit.unitStat.AttackSpeed);
     }
 
 
@@ -21,6 +24,7 @@ public class UnitStateAttacking : UnitState
 
         if (m_target.IsDeath) // 타겟이 죽었으면 다른 타켓팅으로 바꿈
         {
+            m_unit.animator.SetBool("IsAttacking", false);
             m_unit.ChangeState(new UnitStateSearching(m_unit)); // 다시 가장 가까운 적 타겟팅하기위해 바꿈
         }
 
@@ -29,8 +33,19 @@ public class UnitStateAttacking : UnitState
         if (distance > attackRange)
         {
             // 타겟팅이 사거리를 벗어남
+            m_unit.animator.SetBool("IsAttacking", false);
+
             m_unit.ChangeState(new UnitStateSearching(m_unit)); // 다시 가장 가까운 적 타겟팅하기위해 바꿈
             return;
+        }
+
+        // 바라볼 방향 계산
+        Vector3 direction = (((Unit)m_target).transform.position - m_unit.transform.position).normalized;
+        // 방향 회전
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            m_unit.transform.rotation = Quaternion.Lerp(m_unit.transform.rotation, targetRotation, Time.deltaTime * 30f); // 부드러운 회전
         }
 
         // 공격코루틴 시작
@@ -50,6 +65,7 @@ public class UnitStateAttacking : UnitState
 
             // 공격
             m_unit.Attack((IHasHP)m_target);
+            //m_unit.animator.SetBool("IsAttacking", false);
         }
     }
 
