@@ -9,7 +9,7 @@ public class UnitStateDeath : UnitState
 
     public override void Update()
     {
-        Debug.Log($"{m_unit.name} > Death");
+        //Debug.Log($"{m_unit.name} > Death");
 
     }
 }

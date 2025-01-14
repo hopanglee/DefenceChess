@@ -11,7 +11,7 @@ public class UnitStateSearching : UnitState
 
     public override void Update()
     {
-        Debug.Log($"{m_unit.name} > Searching");
+        //Debug.Log($"{m_unit.name} > Searching");
 
         base.Update();
 

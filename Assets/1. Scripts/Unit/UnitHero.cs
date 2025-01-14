@@ -30,7 +30,6 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 
                 if (new_amount == 0)
                     OnShieldDepleted?.Invoke();
-
             }
         }
     }
@@ -48,10 +47,8 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 
                 if (new_hp == 0)
                     OnHpDepleted?.Invoke();
-
                 else if (new_hp == MaxHp)
                     OnHpMax?.Invoke();
-
             }
         }
     }
@@ -85,7 +82,6 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 
                 if (new_mp == MaxMp && MaxMp > 0)
                     OnMpMax?.Invoke();
-
             }
         }
     }
@@ -148,16 +144,15 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
     protected override void Awake()
     {
         Items = new();
-        
+
         base.Awake();
     }
 
     private void OnEnable()
     {
-
         OnHpDepleted += () =>
         {
-            // 나중에 부활아이템 생기면 조건 추가 
+            // 나중에 부활아이템 생기면 조건 추가
             IsDeath = true;
             unitState = new UnitStateDeath(this);
         };
@@ -167,15 +162,18 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
             ReloadStat();
         };
 
-        OnMpMax += () => UseSkill();
+        //OnMpMax += () => UseSkill();
+        OnMpMax += () =>
+        {
+            unitState = new UnitStateSkill(this);
+        };
     }
 
     private void OnDisable()
     {
-
         OnHpDepleted -= () =>
         {
-            // 나중에 부활아이템 생기면 조건 추가 
+            // 나중에 부활아이템 생기면 조건 추가
             IsDeath = true;
             unitState = new UnitStateDeath(this);
         };
@@ -194,7 +192,6 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         {
             attack.StartAttack(this);
         }
-
     }
 
     public virtual bool GetAttacked(Unit attacker, AttackInfo[] attackInfo)
@@ -229,7 +226,8 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
                 ShieldAmount = 0;
                 Hp -= damage - temp;
             }
-            else Hp -= damage;
+            else
+                Hp -= damage;
 
             if (Hp <= 0)
             {
@@ -239,7 +237,8 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 
         OnGetAttacked?.Invoke();
 
-        if (Hp <= 0) return true;
+        if (Hp <= 0)
+            return true;
 
         return false;
     }
@@ -275,13 +274,12 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
 
         return false;
     }
+
     public void RemoveItemAll()
     {
         Items.Clear();
         OnUpdateItem?.Invoke(Items);
     }
-
-
 
     public override void StartTurn()
     {
@@ -289,6 +287,7 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         ReloadStat();
         unitState = new UnitStateSearching(this);
     }
+
     protected override void ReloadStat()
     {
         MaxHp = unitInfo.LvUnitStat[unitStat.Lv - 1].MaxHp + Items.Sum(item => item.itemStat.MaxHp);
@@ -297,19 +296,31 @@ public abstract class UnitHero : Unit, IHasHP, IHasMP, IHasItem
         MaxMp = unitInfo.LvUnitStat[unitStat.Lv - 1].MaxMp + Items.Sum(item => item.itemStat.MaxMp);
         Mp = Items.Sum(item => item.itemStat.BaseMp);
 
-        unitStat.AttackPower = unitInfo.LvUnitStat[unitStat.Lv - 1].AttackPower + Items.Sum(item => item.itemStat.AttackPower);       // 공격력
+        unitStat.AttackPower =
+            unitInfo.LvUnitStat[unitStat.Lv - 1].AttackPower
+            + Items.Sum(item => item.itemStat.AttackPower); // 공격력
 
-        unitStat.AbilityPower = unitInfo.LvUnitStat[unitStat.Lv - 1].AbilityPower + Items.Sum(item => item.itemStat.AbilityPower);      // 주문력
+        unitStat.AbilityPower =
+            unitInfo.LvUnitStat[unitStat.Lv - 1].AbilityPower
+            + Items.Sum(item => item.itemStat.AbilityPower); // 주문력
 
-        unitStat.Defense = unitInfo.LvUnitStat[unitStat.Lv - 1].Defense + Items.Sum(item => item.itemStat.Defense);           // 방어력
+        unitStat.Defense =
+            unitInfo.LvUnitStat[unitStat.Lv - 1].Defense + Items.Sum(item => item.itemStat.Defense); // 방어력
 
-        unitStat.MagicResistance = unitInfo.LvUnitStat[unitStat.Lv - 1].MagicResistance + Items.Sum(item => item.itemStat.MagicResistance);   // 마법 저항력
+        unitStat.MagicResistance =
+            unitInfo.LvUnitStat[unitStat.Lv - 1].MagicResistance
+            + Items.Sum(item => item.itemStat.MagicResistance); // 마법 저항력
 
-        unitStat.AttackRange = unitInfo.LvUnitStat[unitStat.Lv - 1].AttackRange + Items.Sum(item => item.itemStat.AttackRange);       // 사정거리
+        unitStat.AttackRange =
+            unitInfo.LvUnitStat[unitStat.Lv - 1].AttackRange
+            + Items.Sum(item => item.itemStat.AttackRange); // 사정거리
 
-        unitStat.AttackSpeed = unitInfo.LvUnitStat[unitStat.Lv - 1].AttackSpeed + Items.Sum(item => item.itemStat.AttackSpeed); // 공격 속도
+        unitStat.AttackSpeed =
+            unitInfo.LvUnitStat[unitStat.Lv - 1].AttackSpeed
+            + Items.Sum(item => item.itemStat.AttackSpeed); // 공격 속도
 
-        unitStat.HpDrain = unitInfo.LvUnitStat[unitStat.Lv - 1].HpDrain + Items.Sum(item => item.itemStat.HpDrain); // 체력 흡수
+        unitStat.HpDrain =
+            unitInfo.LvUnitStat[unitStat.Lv - 1].HpDrain + Items.Sum(item => item.itemStat.HpDrain); // 체력 흡수
 
         unitStat.Speed = unitInfo.LvUnitStat[unitStat.Lv - 1].Speed;
     }
